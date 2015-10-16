@@ -215,7 +215,7 @@ class TestSwitch(TestCase):
 $i is <py:switch test="i % 2">
 <py:case value="0">even</py:case>
 <py:else>odd</py:else>
-</py:switch></div>''',   '''<div>
+</py:switch></div>''', '''<div>
 0 is even</div><div>
 1 is odd</div>''')
 
@@ -226,7 +226,7 @@ class TestWith(TestCase):
 <div>$a</div>
 <div py:with="a=5">$a</div>
 <div>$a</div>
-</div>''',   '''<div>
+</div>''', '''<div>
 <div>foo</div>
 <div>5</div>
 <div>foo</div>
@@ -237,12 +237,11 @@ class TestWith(TestCase):
 <div>$a - $b</div>
 <div py:with="a=5;b=1">$a - $b</div>
 <div>$a - $b</div>
-</div>''',   '''<div>
+</div>''', '''<div>
 <div>foo - 3</div>
 <div>5 - 1</div>
 <div>foo - 3</div>
 </div>''')
-
 
 
 class TestFunction(TestCase):
@@ -251,7 +250,7 @@ class TestFunction(TestCase):
 ><div py:def="evenness(n)"><py:if test="n % 2 == 0">even</py:if><py:else>odd</py:else></div>
 <py:for each="i in range(2)">$i is ${evenness(i)}
 </py:for
-></div>''',   '''<div>
+></div>''', '''<div>
 0 is <div>even</div>
 1 is <div>odd</div>
 </div>''')
@@ -270,7 +269,7 @@ class TestCall(TestCase):
     <li py:for="i in range(2)">Quoth $speaker, ${caller(i)}</li>
 </ul></py:def
 ><py:call args="n" function="quote(%caller, 'the raven')"
->Nevermore $n</py:call></div>''',   '''<div><ul>
+>Nevermore $n</py:call></div>''', '''<div><ul>
     <li>Quoth the raven, Nevermore 0</li><li>Quoth the raven, Nevermore 1</li>
 </ul></div>''')
 
@@ -550,7 +549,7 @@ class TestClosure(TestCase):
     ><py:def function="inner(y)"
         >${x+y}</py:def
     >${inner(x*2)}</py:def
->${add(5)}</div>''',   '<div>15</div>')
+>${add(5)}</div>''', '<div>15</div>')
 
 
 class TestPython(TestCase):
@@ -558,26 +557,26 @@ class TestPython(TestCase):
         perform('''<div
 ><?py
 import os
-?>${os.path.join('a', 'b', 'c')}</div>''',   '<div>a/b/c</div>')
+?>${os.path.join('a', 'b', 'c')}</div>''', '<div>a/b/c</div>')
 
     def test_indent(self):
         perform('''<div
 ><?py #
     import os
     import re
-?>${os.path.join('a','b','c')}</div>''',   '<div>a/b/c</div>')
+?>${os.path.join('a','b','c')}</div>''', '<div>a/b/c</div>')
 
     def test_short(self):
         perform('''<div
 ><?py import os
-?>${os.path.join('a', 'b', 'c')}</div>''',   '<div>a/b/c</div>')
+?>${os.path.join('a', 'b', 'c')}</div>''', '<div>a/b/c</div>')
 
     def test_mod(self):
         perform('''<div
 ><?py %import os
 ?><py:def function="test()"
 >${os.path.join('a', 'b', 'c')}</py:def
->${test()}</div>''',   '<div>a/b/c</div>')
+>${test()}</div>''', '<div>a/b/c</div>')
 
 
 class TestComment(TestCase):
@@ -589,19 +588,19 @@ class TestComment(TestCase):
 
 class TestAttributes(TestCase):
     def test_basic(self):
-        perform('''<div id="foo"/>''',   '<div id="foo"/>')
+        perform('''<div id="foo"/>''', '<div id="foo"/>')
 
     def test_content(self):
-        perform('''<div py:content="'foo'"/>''',   '<div>foo</div>')
+        perform('''<div py:content="'foo'"/>''', '<div>foo</div>')
 
     def test_replace(self):
-        perform('''<div py:replace="'foo'"/>''',   'foo')
+        perform('''<div py:replace="'foo'"/>''', 'foo')
 
     def test_attrs(self):
-        perform('<div py:attrs="dict(a=5, b=6)"/>',   '<div a="5" b="6"/>')
+        perform('<div py:attrs="dict(a=5, b=6)"/>', '<div a="5" b="6"/>')
         perform('''<div py:attrs="[('a', 5), ('b', 6)]"/>''',
                 '''<div a="5" b="6"/>''')
-        perform('<div py:attrs="None"/>',   '<div/>')
+        perform('<div py:attrs="None"/>', '<div/>')
 
     def test_strip(self):
         TPL = '<div><h1 py:strip="header">Header</h1></div>'
