@@ -96,10 +96,13 @@ class ImportNode(Node):
         self.alias = alias
 
     def py(self):
-        yield self.line(
-            'local.__kj__.import_(%r, %r, self.__globals__)' % (
-                self.tpl_name, self.alias))
+        s = 'local.__kj__.import_(%r, %r, self.__globals__)' % (
+                self.tpl_name, self.alias)
 
+        if self.alias:
+            yield self.line('%s = %s' % (self.alias, s))
+        else:
+            yield self.line(s)
 
 class IncludeNode(Node):
     def __init__(self, tpl_name):
